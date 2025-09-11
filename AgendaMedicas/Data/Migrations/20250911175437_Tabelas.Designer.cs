@@ -4,6 +4,7 @@ using AgendaMedicas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgendaMedicas.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250911175437_Tabelas")]
+    partial class Tabelas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,20 +74,27 @@ namespace AgendaMedicas.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CRM")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Celular")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EspecialidadeId")
+                    b.Property<string>("EspecialidadeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("EspecialidadeId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MedicoId");
 
-                    b.HasIndex("EspecialidadeId");
+                    b.HasIndex("EspecialidadeId1");
 
                     b.ToTable("Medicos", (string)null);
                 });
@@ -378,9 +388,7 @@ namespace AgendaMedicas.Data.Migrations
                 {
                     b.HasOne("AgendaMedicas.Models.Especialidade", "Especialidade")
                         .WithMany()
-                        .HasForeignKey("EspecialidadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EspecialidadeId1");
 
                     b.Navigation("Especialidade");
                 });
