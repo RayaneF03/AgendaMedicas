@@ -56,6 +56,14 @@ public class AgendaController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("AgendaId,PacienteId,MedicoId,DataConsulta,Status")] Agenda agenda)
     {
+        // Verificar se a DataConsulta é >= data atual
+        // Se for retornar com a mensagem de data invalida
+        if (agenda.DataConsulta < DateTime.Now)
+        {
+            // Adicionar mensagem de erro
+            ModelState.AddModelError("DataConsulta", "A data da consulta deve ser maior ou igual à data atual.");
+        }
+
         if (ModelState.IsValid)
         {
             agenda.AgendaId = Guid.NewGuid();
