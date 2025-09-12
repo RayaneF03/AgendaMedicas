@@ -2,6 +2,7 @@
 {
     public class Medico
     {
+        public static object Especialidade { get; internal set; }
         public Guid MedicoId { get; set; }
         public string? Nome { get; set; }
 
@@ -11,7 +12,7 @@
 
         public Guid EspecialidadeId { get; set; }
 
-        public Especialidade? Especialidade { get; set; }
+        public Especialidade? Especialidades { get; set; }
 
     }
 }

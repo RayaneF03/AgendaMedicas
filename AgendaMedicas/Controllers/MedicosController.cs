@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AgendaMedicas.Data;
+using AgendaMedicas.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AgendaMedicas.Data;
-using AgendaMedicas.Models;
 
 namespace AgendaMedicas.Controllers
 {
@@ -22,7 +18,7 @@ namespace AgendaMedicas.Controllers
         // GET: Medicos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Medicos.Include(m => m.Especialidade);
+            var applicationDbContext = _context.Medicos.Include(m => m.Especialidades);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +31,7 @@ namespace AgendaMedicas.Controllers
             }
 
             var medico = await _context.Medicos
-                .Include(m => m.Especialidade)
+                .Include(m => m.Especialidades)
                 .FirstOrDefaultAsync(m => m.MedicoId == id);
             if (medico == null)
             {
@@ -48,7 +44,7 @@ namespace AgendaMedicas.Controllers
         // GET: Medicos/Create
         public IActionResult Create()
         {
-            ViewData["EspecialidadeId"] = new SelectList(_context.Especialidades, "EspecialidadeId", "EspecialidadeId");
+            ViewData["EspecialidadeId"] = new SelectList(_context.Especialidades, "EspecialidadeId", "Nome", Medico.Especialidade);
             return View();
         }
 
@@ -132,7 +128,7 @@ namespace AgendaMedicas.Controllers
             }
 
             var medico = await _context.Medicos
-                .Include(m => m.Especialidade)
+                .Include(m => m.Especialidades)
                 .FirstOrDefaultAsync(m => m.MedicoId == id);
             if (medico == null)
             {
