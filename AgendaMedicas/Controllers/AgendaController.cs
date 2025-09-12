@@ -1,171 +1,165 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AgendaMedicas.Data;
+using AgendaMedicas.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AgendaMedicas.Data;
-using AgendaMedicas.Models;
 
-namespace AgendaMedicas.Controllers
+
+
+
+public class AgendaController : Controller
 {
-    public class AgendaController : Controller
+    private readonly ApplicationDbContext _context;
+
+    public AgendaController(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public AgendaController(ApplicationDbContext context)
+    // GET: Agenda
+    public async Task<IActionResult> Index()
+    {
+        var applicationDbContext = _context.Agendas.Include(a => a.Medico).Include(a => a.Paciente);
+        return View(await applicationDbContext.ToListAsync());
+    }
+
+    // GET: Agenda/Details/5
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: Agenda
-        public async Task<IActionResult> Index()
+        var agenda = await _context.Agendas
+            .Include(a => a.Medico)
+            .Include(a => a.Paciente)
+            .FirstOrDefaultAsync(m => m.AgendaId == id);
+        if (agenda == null)
         {
-            var applicationDbContext = _context.Agendas.Include(a => a.Medico).Include(a => a.Paciente);
-            return View(await applicationDbContext.ToListAsync());
+            return NotFound();
         }
 
-        // GET: Agenda/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        return View(agenda);
+    }
+
+    // GET: Agenda/Create
+    public IActionResult Create()
+    {
+        ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "Nome");
+        ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "Nome");
+        return View();
+    }
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create([Bind("AgendaId,PacienteId,MedicoId,DataConsulta,Status")] Agenda agenda)
+    {
+        if (ModelState.IsValid)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agenda = await _context.Agendas
-                .Include(a => a.Medico)
-                .Include(a => a.Paciente)
-                .FirstOrDefaultAsync(m => m.AgendaId == id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-
-            return View(agenda);
-        }
-
-        // GET: Agenda/Create
-        public IActionResult Create()
-        {
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "MedicoId");
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "PacienteId");
-            return View();
-        }
-
-        // POST: Agenda/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AgendaId,PacienteId,MedicoId,DataConsulta,Status")] Agenda agenda)
-        {
-            if (ModelState.IsValid)
-            {
-                agenda.AgendaId = Guid.NewGuid();
-                _context.Add(agenda);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "MedicoId", agenda.MedicoId);
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "PacienteId", agenda.PacienteId);
-            return View(agenda);
-        }
-
-        // GET: Agenda/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agenda = await _context.Agendas.FindAsync(id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "MedicoId", agenda.MedicoId);
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "PacienteId", agenda.PacienteId);
-            return View(agenda);
-        }
-
-        // POST: Agenda/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AgendaId,PacienteId,MedicoId,DataConsulta,Status")] Agenda agenda)
-        {
-            if (id != agenda.AgendaId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(agenda);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AgendaExists(agenda.AgendaId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "MedicoId", agenda.MedicoId);
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "PacienteId", agenda.PacienteId);
-            return View(agenda);
-        }
-
-        // GET: Agenda/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agenda = await _context.Agendas
-                .Include(a => a.Medico)
-                .Include(a => a.Paciente)
-                .FirstOrDefaultAsync(m => m.AgendaId == id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-
-            return View(agenda);
-        }
-
-        // POST: Agenda/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var agenda = await _context.Agendas.FindAsync(id);
-            if (agenda != null)
-            {
-                _context.Agendas.Remove(agenda);
-            }
-
+            agenda.AgendaId = Guid.NewGuid();
+            _context.Add(agenda);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "Nome", agenda.MedicoId);
+        ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "Nome", agenda.PacienteId);
+        return View(agenda);
+    }
 
-        private bool AgendaExists(Guid id)
+    // GET: Agenda/Edit/5
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        if (id == null)
         {
-            return _context.Agendas.Any(e => e.AgendaId == id);
+            return NotFound();
         }
+
+        var agenda = await _context.Agendas.FindAsync(id);
+        if (agenda == null)
+        {
+            return NotFound();
+        }
+        ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "MedicoId", agenda.MedicoId);
+        ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "PacienteId", agenda.PacienteId);
+        return View(agenda);
+    }
+
+    // POST: Agenda/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, [Bind("AgendaId,PacienteId,MedicoId,DataConsulta,Status")] Agenda agenda)
+    {
+        if (id != agenda.AgendaId)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _context.Update(agenda);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AgendaExists(agenda.AgendaId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        ViewData["MedicoId"] = new SelectList(_context.Medicos, "MedicoId", "Nome", agenda.MedicoId);
+        ViewData["PacienteId"] = new SelectList(_context.Pacientes, "PacienteId", "Nome", agenda.PacienteId);
+        return View(agenda);
+    }
+
+    // GET: Agenda/Delete/5
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var agenda = await _context.Agendas
+            .Include(a => a.Medico)
+            .Include(a => a.Paciente)
+            .FirstOrDefaultAsync(m => m.AgendaId == id);
+        if (agenda == null)
+        {
+            return NotFound();
+        }
+
+        return View(agenda);
+    }
+
+    // POST: Agenda/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        var agenda = await _context.Agendas.FindAsync(id);
+        if (agenda != null)
+        {
+            _context.Agendas.Remove(agenda);
+        }
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    private bool AgendaExists(Guid id)
+    {
+        return _context.Agendas.Any(e => e.AgendaId == id);
     }
 }
