@@ -2,18 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace AgendaMedicas.Areas.Identity.Pages.Account
 {
@@ -64,16 +57,16 @@ namespace AgendaMedicas.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Digite Um Email")]
+            [EmailAddress(ErrorMessage = "Digite Um Email com um Formato Válido")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [DataType(DataType.Password)]
+            [Required(ErrorMessage = "Digite Uma Senha")]
+            [DataType(DataType.Password, ErrorMessage = "A senha deve conter letras Maiusculas, letras minusculas, números e caracteres especiais")]
             public string Password { get; set; }
 
             /// <summary>
@@ -128,7 +121,7 @@ namespace AgendaMedicas.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Não foi possivel efetuar o login.");
                     return Page();
                 }
             }
