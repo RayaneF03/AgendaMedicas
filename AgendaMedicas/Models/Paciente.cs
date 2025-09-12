@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace AgendaMedicas.Models
+﻿namespace AgendaMedicas.Models
 {
     public class Paciente
     {
@@ -29,10 +27,6 @@ namespace AgendaMedicas.Models
         public int Prontuario { get; set; }
 
         public string Email { get; set; }
-
-        public string? UserId { get; set; }
-
-        public IdentityUser? IdentityUser { get; set; }
 
     }
 }

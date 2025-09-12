@@ -54,7 +54,7 @@ namespace AgendaMedicas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PacienteId,Nome,CPF,Celular,Telefone,DataNascimento,Endereco,Bairro,Cidade,UF,CEP,Prontuario,Email,UserId")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("PacienteId,Nome,CPF,Celular,Telefone,DataNascimento,Endereco,Bairro,Cidade,UF,CEP,Prontuario,Email")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace AgendaMedicas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PacienteId,Nome,CPF,Celular,Telefone,DataNascimento,Endereco,Bairro,Cidade,UF,CEP,Prontuario,Email,UserId")] Paciente paciente)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PacienteId,Nome,CPF,Celular,Telefone,DataNascimento,Endereco,Bairro,Cidade,UF,CEP,Prontuario,Email")] Paciente paciente)
         {
             if (id != paciente.PacienteId)
             {
