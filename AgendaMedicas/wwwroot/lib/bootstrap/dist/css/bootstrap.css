@@ -8520,7 +8520,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-light {
+.text-dark {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }
@@ -8620,7 +8620,7 @@ textarea.form-control-lg {
   color: var(--bs-danger-text-emphasis) !important;
 }
 
-.text-light-emphasis {
+.text-dark-emphasis {
   color: var(--bs-light-text-emphasis) !important;
 }
 

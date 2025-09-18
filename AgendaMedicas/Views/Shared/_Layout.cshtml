@@ -9,9 +9,9 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/AgendaMedica.styles.css" asp-append-version="true" />
 </head>
-<body class="bg-dark">
+<body class="bg-light">
 	<header>
-		<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark bg-black border-bottom box-shadow mb-3">
+		<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-light border-bottom box-shadow mb-3">
 			<div class="container-fluid">
 				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-person-vcard"></i> Agenda Médica</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -21,27 +21,27 @@
 				<div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Especialidades" asp-action="Index">Especialidades</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Especialidades" asp-action="Index">Especialidades</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Medicos" asp-action="Index">Médicos</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Medicos" asp-action="Index">Médicos</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Agendas" asp-action="Index">Agenda de Consultas</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Agenda" asp-action="Index">Agenda de Consultas</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre Nós</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre Nós</a>
 						</li>
 					</ul>
 					<partial name="_LoginPartial" />
@@ -55,7 +55,7 @@
 		</main>
 	</div>
 
-	<footer class="border-top footer text-light text-center">
+	<footer class="border-top footer text-dark text-center">
 		<div class="container">
 			&copy; 2025 - Agenda Médica | Desenvolvido por <span class="fw-bold">Rayane</span>
 		</div>
