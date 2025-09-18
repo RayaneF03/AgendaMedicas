@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AgendaMedicas.Models.Medico>
+﻿@model IEnumerable<AgendaMedica.Models.Medico>
 
 @{
 	ViewData["Title"] = "Index";
@@ -22,7 +22,7 @@
 				@Html.DisplayNameFor(model => model.Celular)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Especialidades)
+				@Html.DisplayNameFor(model => model.Especialidade)
 			</th>
 			<th></th>
 		</tr>
@@ -41,7 +41,7 @@
 					@Html.DisplayFor(modelItem => item.Celular)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Especialidades.Nome)
+					@Html.DisplayFor(modelItem => item.Especialidade.Nome)
 				</td>
 				<td>
 					<a asp-action="Edit" asp-route-id="@item.MedicoId">Edit</a> |
