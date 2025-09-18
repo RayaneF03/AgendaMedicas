@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AgendaMedica.Models.Paciente>
+﻿@model IEnumerable<AgendaMedicas.Models.Paciente>
 
 @{
 	ViewData["Title"] = "Cadastro de Pacientes";
@@ -24,7 +24,7 @@
 					@Html.DisplayNameFor(model => model.CPF)
 				</th>
 				<th class="bg-black">
-					@Html.DisplayNameFor(model => model.DataNasc)
+					@Html.DisplayNameFor(model => model.DataNascimento)
 				</th>
 				<th class="bg-black">
 					@Html.DisplayNameFor(model => model.Celular)
@@ -49,7 +49,7 @@
 						@Html.DisplayFor(modelItem => item.CPF)
 					</td>
 					<td>
-						@Html.DisplayFor(modelItem => item.DataNasc)
+						@Html.DisplayFor(modelItem => item.DataNascimento)
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.Celular)
